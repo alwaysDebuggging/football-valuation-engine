@@ -1,0 +1,6 @@
+@FootballValuationEngine.Api_HostAddress = http://localhost:5056
+
+GET {{FootballValuationEngine.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
