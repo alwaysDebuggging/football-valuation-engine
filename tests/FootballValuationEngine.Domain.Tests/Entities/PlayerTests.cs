@@ -1,24 +1,38 @@
-﻿using System.Runtime.CompilerServices;
-using FootballValuationEngine.Domain.Entities;
+﻿using FootballValuationEngine.Domain.Entities;
 using FootballValuationEngine.Domain.Enums;
 using FootballValuationEngine.Domain.ValueObjects;
-using Xunit;
+
+
 namespace FootballValuationEngine.Domain.Tests.Entities;
 
 public class PlayerTests
 {
-    // Arrange Setup
-    private static Team ValidTeam = new Team(1, "Test Team");
-    private static League ValidLeague = new League(1, "Test League", "Test Country", 2023);
+    private readonly Player _validTestPlayer;
 
-    private static PlayerStats ValidPlayerStats(int appearances = 25, int minutes = 2000)
+    public PlayerTests()
     {
+        // Runs fresh before every test method — xUnit's equivalent of [SetUp]
+        _validTestPlayer = new Player(
+            id: 1,
+            name: "Test Player",
+            firstName: "Test",
+            lastName: "Player",
+            age: 25,
+            nationality: "Testland",
+            heightCm: 180,
+            weightKg: 75,
+            injured: false,
+            photoUrl: "http://example.com/photo.jpg"
+        );
+    }
 
+    private static PlayerStats CreateValidStats(int minutes)
+    {
         return new PlayerStats(
-            team: ValidTeam,
-            league: ValidLeague,
+            team: new Team(1, "Test Team"),
+            league: new League(1, "Test League", "Test Country", 2023),
             position: Position.Midfielder,
-            appearances: appearances,
+            appearances: 0,
             minutes: minutes,
             rating: 7.5m,
             goals: 3,
@@ -38,16 +52,13 @@ public class PlayerTests
             redCards: 0);
     }
 
-    // Test cases for PlayerStats constructor validation
     [Theory]
     [InlineData(-5)]
     [InlineData(0)]
-
-    public void Constructor_IdZeroOrNegative_ThrowsArgumentOutOfRangeException(int Id)
+    public void Constructor_IdZeroOrNegative_ThrowsArgumentOutOfRangeException(int id)
     {
-        // Arrange & Act & Assert
         Assert.Throws<ArgumentOutOfRangeException>(() => new Player(
-            id: Id,
+            id: id,
             name: "Test Player",
             firstName: "Test",
             lastName: "Player",
@@ -59,18 +70,16 @@ public class PlayerTests
             photoUrl: "http://example.com/photo.jpg"
         ));
     }
-
 
     [Theory]
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void Constructor_NullOrWhitespaceName_ThrowsArgumentException(string Name)
+    public void Constructor_NullOrWhitespaceName_ThrowsArgumentException(string? name)
     {
-        // Arrange & Act & Assert
         Assert.Throws<ArgumentException>(() => new Player(
             id: 1,
-            name: Name,
+            name: name!,
             firstName: "Test",
             lastName: "Player",
             age: 25,
@@ -82,16 +91,17 @@ public class PlayerTests
         ));
     }
 
-    [Fact]
-    public void Constructor_AgeBelowFourteen_ThrowsArgumentOutOfRangeException()
+    [Theory]
+    [InlineData(13)]
+    [InlineData(56)]
+    public void Constructor_AgeBelowFourteenAndGreaterThen55_ThrowsArgumentOutOfRangeException(int age)
     {
-        // Arrange & Act & Assert
         Assert.Throws<ArgumentOutOfRangeException>(() => new Player(
             id: 1,
             name: "Test Player",
             firstName: "Test",
             lastName: "Player",
-            age: 13,
+            age: age,
             nationality: "Testland",
             heightCm: 180,
             weightKg: 75,
@@ -100,32 +110,62 @@ public class PlayerTests
         ));
     }
 
-    [Fact]
-    public void Constructor_AgeAbove55_ThrowsArgumentOutOfRangeException()
+    [Theory]
+    [InlineData(14)]
+    [InlineData(55)]
+    public void Constructor_ValidAge_DoesNotThrow(int age)
     {
-        // Arrange & Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => new Player(
+        var validTestPlayer = new Player(
             id: 1,
             name: "Test Player",
             firstName: "Test",
             lastName: "Player",
-            age: 56,
+            age: age,
             nationality: "Testland",
             heightCm: 180,
             weightKg: 75,
             injured: false,
             photoUrl: "http://example.com/photo.jpg"
-        ));
+        );
+
+        Assert.NotNull(validTestPlayer);
+        Assert.Equal(age, validTestPlayer.Age);
     }
 
+    [Fact]
+    public void AddStatistics_AddsToStatisticsCollection()
+    {
+        var playerStatsTest = CreateValidStats(minutes: 500);
 
-    // Constructor_ValidAge_DoesNotThrow
-    // AddStatistics_AddsToStatisticsCollection
-    // PlayedStatistics_FiltersOutZeroMinuteEntries 
-    // Statistics_IsReadOnly_CannotBeModifiedExternally
+        _validTestPlayer.AddStatistics(playerStatsTest);
 
+        Assert.Single(_validTestPlayer.Statistics);
+    }
 
+    [Fact]
+    public void PlayedStatistics_FiltersOutZeroMinuteEntries()
+    {
+        var played = CreateValidStats(minutes: 500);
+        var unplayed = CreateValidStats(minutes: 0);
 
+        _validTestPlayer.AddStatistics(played);
+        _validTestPlayer.AddStatistics(unplayed);
 
+        var playedStatistics = _validTestPlayer.PlayedStatistics.ToList();
 
+        Assert.Single(playedStatistics);
+        Assert.Contains(played, playedStatistics);
+        Assert.DoesNotContain(unplayed, playedStatistics);
+    }
+
+    [Fact]
+    public void Statistics_IsReadOnly_CannotBeModifiedExternally()
+    {
+        var playerStatsTest = CreateValidStats(minutes: 500);
+
+        _validTestPlayer.AddStatistics(playerStatsTest);
+
+        Assert.IsAssignableFrom<IReadOnlyCollection<PlayerStats>>(_validTestPlayer.Statistics);
+        Assert.IsNotType<List<PlayerStats>>(_validTestPlayer.Statistics);
+    }
 }
