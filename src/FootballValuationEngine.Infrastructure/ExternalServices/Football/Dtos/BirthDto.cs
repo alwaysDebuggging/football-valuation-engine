@@ -6,7 +6,7 @@ namespace FootballValuationEngine.Infrastructure.ExternalServices.Football.Dtos;
 public class BirthDto
 {
     [JsonPropertyName("date")]
-    public string? Data { get; set; }
+    public string? Date { get; set; }
 
     [JsonPropertyName("place")]
     public string? Place { get; set; }

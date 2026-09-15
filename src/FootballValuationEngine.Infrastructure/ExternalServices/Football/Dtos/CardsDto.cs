@@ -6,12 +6,12 @@ public class CardsDto
 {
 
     [JsonPropertyName("yellow")]
-    public string? Yellow { get; set; }
+    public int? Yellow { get; set; }
 
     [JsonPropertyName("yellowred")]
-    public string? YellowRed { get; set; }
+    public int? YellowRed { get; set; }
 
-    [JsonPropertyName("Red")]
-    public string? Red { get; set; }
+    [JsonPropertyName("red")]
+    public int? Red { get; set; }
 
 }
