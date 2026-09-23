@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using FootballValuationEngine.Infrastructure.ExternalServices.Football.Dtos.Converters;
 
 namespace FootballValuationEngine.Infrastructure.ExternalServices.Football.Dtos;
 
@@ -13,5 +14,6 @@ public class PassesDto
     // Format is inconsistent across responses (sometimes numeric, sometimes string) -
     // kept as string here and parsed defensively in the mapper.
     [JsonPropertyName("accuracy")]
+    [JsonConverter(typeof(FlexibleStringConverter))]
     public string? Accuracy { get; set; }
 }

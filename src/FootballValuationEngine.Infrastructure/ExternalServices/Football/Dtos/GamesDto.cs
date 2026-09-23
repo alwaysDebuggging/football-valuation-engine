@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-
+using FootballValuationEngine.Infrastructure.ExternalServices.Football.Dtos.Converters;
 namespace FootballValuationEngine.Infrastructure.ExternalServices.Football.Dtos;
 
 public class GamesDto
@@ -22,6 +22,7 @@ public class GamesDto
 
     // Comes back as a string, e.g. "8.035714" (parsed in the mapper)
     [JsonPropertyName("rating")]
+    [JsonConverter(typeof(FlexibleStringConverter))]
     public string? Rating { get; set; }
 
     [JsonPropertyName("captain")]
