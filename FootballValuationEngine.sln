@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballValuationEngine.App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballValuationEngine.Api.IntegrationTests", "tests\FootballValuationEngine.Api.IntegrationTests\FootballValuationEngine.Api.IntegrationTests.csproj", "{55083608-B784-4EFC-8390-399531C9991B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballValuationEngine.Infrastructure.Tests", "tests\FootballValuationEngine.Infrastructure.Tests\FootballValuationEngine.Infrastructure.Tests.csproj", "{538BE67A-6BFC-4737-8E28-6E3BAF3AAE00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{55083608-B784-4EFC-8390-399531C9991B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55083608-B784-4EFC-8390-399531C9991B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55083608-B784-4EFC-8390-399531C9991B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{538BE67A-6BFC-4737-8E28-6E3BAF3AAE00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{538BE67A-6BFC-4737-8E28-6E3BAF3AAE00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{538BE67A-6BFC-4737-8E28-6E3BAF3AAE00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{538BE67A-6BFC-4737-8E28-6E3BAF3AAE00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{034C9AB6-2627-4E28-AEE0-B330196991D6} = {209A1C91-9E88-45A0-970E-1A523FCDC0DF}
@@ -67,5 +73,6 @@ Global
 		{FB50B059-2F23-4D62-A6DD-92DD8A529168} = {5B81DD03-5403-438D-B282-99023A73B3EC}
 		{CCFDCBA2-7169-4531-8800-AA56ACF08716} = {5B81DD03-5403-438D-B282-99023A73B3EC}
 		{55083608-B784-4EFC-8390-399531C9991B} = {5B81DD03-5403-438D-B282-99023A73B3EC}
+		{538BE67A-6BFC-4737-8E28-6E3BAF3AAE00} = {5B81DD03-5403-438D-B282-99023A73B3EC}
 	EndGlobalSection
 EndGlobal
