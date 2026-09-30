@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\FootballValuationEngine.Infrastructure\FootballValuationEngine.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\FootballValuationEngine.Application\FootballValuationEngine.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
