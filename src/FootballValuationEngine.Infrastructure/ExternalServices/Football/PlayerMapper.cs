@@ -3,6 +3,7 @@ using FootballValuationEngine.Domain.Entities;
 using FootballValuationEngine.Domain.Enums;
 using FootballValuationEngine.Domain.ValueObjects;
 using FootballValuationEngine.Infrastructure.ExternalServices.Football.Dtos;
+using System.Globalization;
 
 namespace FootballValuationEngine.Infrastructure.ExternalServices.Football;
 
@@ -49,11 +50,9 @@ public class PlayerMapper
 
         var minutes = dto.Games.Minutes ?? 0;
 
-        decimal? rating = decimal.TryParse(dto.Games.Rating, out var parsedRating)
-            ? parsedRating
-            : null;
+        decimal? rating = decimal.TryParse(dto.Games.Rating, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsedRating) ? parsedRating : null;
 
-        decimal? accuracy = decimal.TryParse(dto.Passes?.Accuracy, out var parsedAccuracy) ? parsedAccuracy : null;
+        decimal? accuracy = decimal.TryParse(dto.Passes?.Accuracy, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsedAccuracy) ? parsedAccuracy : null;
 
         var yellowCards = dto.Cards?.Yellow ?? 0;
         var redCards = dto.Cards?.Red ?? 0;
@@ -109,6 +108,6 @@ public class PlayerMapper
 
         var match = Regex.Match(raw, @"\d+");
 
-        return match.Success && int.TryParse(match.Value, out var result) ? result : null;
+        return match.Success && int.TryParse(match.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var result) ? result : null;
     }
 }
